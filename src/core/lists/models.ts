@@ -2,7 +2,12 @@ export interface List {
   id: string;
   name: string;
   category: string;
-  createdAt: Date;
+  createdAt: string;
+}
+
+export interface ListCreate {
+  name: string;
+  category: string;
 }
 
 export type ListGlobalState = List[];

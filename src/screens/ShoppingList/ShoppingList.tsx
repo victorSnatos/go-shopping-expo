@@ -1,86 +1,96 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
-import Constants from "expo-constants";
+import { View, TouchableOpacity, ScrollView } from "react-native";
+import { useAppNavigation, useAppRoute } from "../../hooks";
 import ScreenRoot from "../ScreenRoot";
 import Box from "../../ui/Box";
-import { formatDateString } from "../../helpers";
-import ShoppingListCard from "../../components/ShoppingListCard";
-import { useGetAllLists } from "../../core/lists/hooks";
 import TextField from "../../ui/TextField";
+import { AntDesign } from "@expo/vector-icons";
+import ShoppingItem from "../../components/ShoppingItem";
 
 const ShoppingList = () => {
-  const lists = useGetAllLists();
+  const navigation = useAppNavigation();
+  const route = useAppRoute<"shoppingList">();
+  const { list } = route.params;
 
   return (
     <ScreenRoot>
-      <Box flex={1} justifyContent="center" paddingHorizontal={20}>
-        <TextField fontSize="3xl" fontWeight="bold" color="#2d2d2d">
-          Shopping Cart
+      <Box justifyContent="center" paddingHorizontal={20} marginBottom={15}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+            marginBottom: 10,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => navigation.navigate("showShoppingLists")}
+          >
+            <AntDesign name="leftcircle" size={30} color="#2d2d2d" />
+          </TouchableOpacity>
+          <TextField fontSize="3xl" fontWeight="bold" color="#2d2d2d">
+            Compras
+          </TextField>
+        </View>
+        <TextField fontSize="lg" fontWeight="bold" color="#2d2d2d">
+          {list.name}
         </TextField>
       </Box>
 
-      <Box flex={15} paddingHorizontal={20} paddingVertical={15}>
+      <Box flex={18} paddingHorizontal={20}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {lists.map((item) => (
-            <ShoppingListCard key={item.id} list={item} />
-          ))}
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
+          <ShoppingItem />
         </ScrollView>
       </Box>
 
-      <Box
-        flex={2}
-        justifyContent="center"
-        alignItems="flex-end"
-        paddingHorizontal={20}
-      >
-        <TouchableOpacity
+      <Box flex={2} paddingHorizontal={20}>
+        <View
           style={{
+            paddingVertical: 5,
+            paddingHorizontal: 10,
             backgroundColor: "#2985c0",
-            width: 150,
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 10,
-            borderRadius: 10,
           }}
         >
-          <TextField fontSize="md" fontWeight="semiBold" color="#2d2d2d">
-            Crear Lista
-          </TextField>
-        </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              fontSize="sm"
+              fontWeight="light"
+              marginBottom={6}
+              color="#2d2d2d"
+            >
+              Total
+            </TextField>
+
+            <TextField
+              fontSize="sm"
+              fontWeight="light"
+              marginBottom={6}
+              color="#2d2d2d"
+            >
+              $3.19
+            </TextField>
+          </View>
+        </View>
       </Box>
     </ScreenRoot>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: "#f0f0f0",
-  },
-});
-
 export default ShoppingList;
-
-/*
-<View
-        style={{
-          paddingHorizontal: 20,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 25,
-            fontWeight: "bold",
-            color: "#2d2d2d",
-          }}
-        >
-          Shopping Cart
-        </Text>
-      </View>
-*/

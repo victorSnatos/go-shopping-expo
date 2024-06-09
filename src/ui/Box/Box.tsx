@@ -21,19 +21,21 @@ interface Props {
     | "space-around"
     | "space-evenly"
     | undefined;
+  marginBottom?: DimensionValue | undefined;
   children: ReactNode | ReactNode[];
 }
 
-export default function Box({ children, flex = 1, ...props }: Props) {
+export default function Box({ children, ...props }: Props) {
   return (
     <View
       style={{
-        flex: flex,
+        flex: props.flex,
         paddingHorizontal: props.paddingHorizontal,
         paddingVertical: props.paddingVertical,
         backgroundColor: props.backgroundColor,
         alignItems: props.alignItems,
         justifyContent: props.justifyContent,
+        marginBottom: props.marginBottom,
       }}
     >
       {children}

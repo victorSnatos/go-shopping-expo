@@ -1,28 +1,26 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { formatDateString } from "../../helpers";
 import TextField from "../../ui/TextField";
-
-interface List {
-  id: string;
-  name: string;
-  category: string;
-  createdAt: Date;
-}
+import { List } from "../../core/lists/models";
+import { useAppNavigation } from "../../hooks";
 
 interface Props {
   list: List;
 }
 
 const ShoppingListCard = ({ list }: Props) => {
+  const navigation = useAppNavigation();
+
   return (
-    <View
+    <TouchableOpacity
       style={{
         marginBottom: 10,
         padding: 10,
         borderRadius: 10,
         backgroundColor: "#ffffff",
       }}
+      onPress={() => navigation.navigate("shoppingList", { list })}
     >
       <TextField
         fontSize="md"
@@ -56,7 +54,7 @@ const ShoppingListCard = ({ list }: Props) => {
           {list.category}
         </TextField>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

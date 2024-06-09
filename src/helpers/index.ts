@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import "dayjs/locale/es"; // Importar el idioma español
 
-export function formatDateString(date: Date): string {
+export function formatDateString(date: string): string {
   // Establecer el idioma local de Day.js a español
   dayjs.locale("es");
 
