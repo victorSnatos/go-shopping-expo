@@ -12,6 +12,7 @@ export default function useCreateList() {
       name: list.name,
       category: list.category,
       createdAt: new Date().toISOString(),
+      shopping: null,
     };
 
     dispatch(actions.addList(newList));

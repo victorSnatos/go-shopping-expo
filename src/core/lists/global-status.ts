@@ -8,12 +8,30 @@ const initialState: ListGlobalState = [
     name: "Compra Quincena uno",
     category: "Alimentos",
     createdAt: new Date().toISOString(),
+    shopping: [
+      {
+        name: "Atun don sancho",
+        amount: 2,
+        price: 1.59,
+      },
+      {
+        name: "Sardina campos",
+        amount: 3,
+        price: 0.85,
+      },
+      {
+        name: "Aceite joya sol",
+        amount: 1,
+        price: 1.49,
+      },
+    ],
   },
   {
     id: "list-2",
     name: "Compra Quincena dos",
     category: "Alimentos",
     createdAt: new Date().toISOString(),
+    shopping: null,
   },
 ];
 

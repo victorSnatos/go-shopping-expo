@@ -5,11 +5,24 @@ import Box from "../../ui/Box";
 import TextField from "../../ui/TextField";
 import { AntDesign } from "@expo/vector-icons";
 import ShoppingItem from "../../components/ShoppingItem";
+import { useGetShopping } from "../../core/lists/hooks";
+import { Buys } from "../../core/lists/models";
 
 const ShoppingList = () => {
   const navigation = useAppNavigation();
   const route = useAppRoute<"shoppingList">();
   const { list } = route.params;
+
+  const shopping = useGetShopping(list.id);
+
+  const total = (buys: Buys[]): string => {
+    const calculate = buys
+      .map((item) => item.price * item.amount)
+      .reduce((acc, curr) => acc + curr, 0)
+      .toFixed(2);
+
+    return calculate;
+  };
 
   return (
     <ScreenRoot>
@@ -38,19 +51,11 @@ const ShoppingList = () => {
 
       <Box flex={18} paddingHorizontal={20}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
-          <ShoppingItem />
+          {shopping
+            ? shopping.map((item) => (
+                <ShoppingItem key={item.name} buys={item} />
+              ))
+            : ""}
         </ScrollView>
       </Box>
 
@@ -84,7 +89,7 @@ const ShoppingList = () => {
               marginBottom={6}
               color="#2d2d2d"
             >
-              $3.19
+              ${shopping ? total(shopping) : "0.00"}
             </TextField>
           </View>
         </View>

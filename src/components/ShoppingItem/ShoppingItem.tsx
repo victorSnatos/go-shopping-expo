@@ -2,12 +2,14 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { formatDateString } from "../../helpers";
 import TextField from "../../ui/TextField";
-import { List } from "../../core/lists/models";
+import { Buys, List } from "../../core/lists/models";
 import { useAppNavigation } from "../../hooks";
 
-interface Props {}
+interface Props {
+  buys: Buys;
+}
 
-const ShoppingItem = ({}: Props) => {
+const ShoppingItem = ({ buys }: Props) => {
   return (
     <TouchableOpacity
       style={{
@@ -24,7 +26,7 @@ const ShoppingItem = ({}: Props) => {
         marginBottom={5}
         color="#2d2d2d"
       >
-        Atun don sancho 250G com mas productos de la lista
+        {buys.name}
       </TextField>
 
       <View
@@ -40,7 +42,7 @@ const ShoppingItem = ({}: Props) => {
           marginBottom={6}
           color="#2d2d2d"
         >
-          X3
+          X{`${buys.amount}`}
         </TextField>
 
         <TextField
@@ -49,7 +51,7 @@ const ShoppingItem = ({}: Props) => {
           marginBottom={6}
           color="#2d2d2d"
         >
-          $1.59
+          ${`${buys.price.toFixed(2)}`}
         </TextField>
 
         <TextField
@@ -58,7 +60,7 @@ const ShoppingItem = ({}: Props) => {
           marginBottom={6}
           color="#2d2d2d"
         >
-          $3.19
+          ${`${(buys.price * buys.amount).toFixed(2)}`}
         </TextField>
       </View>
     </TouchableOpacity>
