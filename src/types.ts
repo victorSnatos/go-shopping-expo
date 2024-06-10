@@ -4,4 +4,5 @@ export type RootStackParamList = {
   showShoppingLists: undefined;
   shoppingList: { list: List };
   createShoppingList: undefined;
+  createPurchase: { list: List };
 };

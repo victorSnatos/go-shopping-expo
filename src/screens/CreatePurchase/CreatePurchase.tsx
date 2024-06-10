@@ -1,44 +1,60 @@
-import { useState } from "react";
-import { View, TextInput, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
+import React, { useState } from "react";
 import ScreenRoot from "../ScreenRoot";
 import Box from "../../ui/Box";
-import TextField from "../../ui/TextField";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { useAppNavigation, useAppRoute } from "../../hooks";
 import { AntDesign } from "@expo/vector-icons";
-import { useAppNavigation } from "../../hooks";
-import { ListCreate } from "../../core/lists/models";
-import { useCreateList } from "../../core/lists/hooks";
+import TextField from "../../ui/TextField";
+import { Buys } from "../../core/lists/models";
+import { useAddBuys } from "../../core/lists/hooks";
 
-const CreateShoppingList = () => {
+const CreatePurchase = () => {
   const navigation = useAppNavigation();
-  const createList = useCreateList();
+  const route = useAppRoute<"createPurchase">();
+  const { list } = route.params;
 
-  const [list, setList] = useState<ListCreate>({
+  const addBuys = useAddBuys();
+
+  const [buys, setBuys] = useState<Buys>({
     name: "",
-    category: "",
+    amount: 0,
+    price: 0,
   });
 
   const handleOnChangeName = (text: string) => {
-    setList({
-      ...list,
+    setBuys({
+      ...buys,
       name: text,
     });
   };
-  const handleOnChangeCategory = (text: string) => {
-    setList({
-      ...list,
-      category: text,
+
+  const handleOnChangeAmount = (text: string) => {
+    setBuys({
+      ...buys,
+      amount: parseFloat(text),
     });
   };
 
-  const handleCreateList = () => {
-    createList(list);
+  const handleOnChangePrice = (text: string) => {
+    setBuys({
+      ...buys,
+      price: parseFloat(text),
+    });
+  };
 
-    setList({
+  const handleCreateBuys = () => {
+    addBuys(list.id, buys);
+
+    navigation.navigate("shoppingList", { list });
+
+    setBuys({
       name: "",
-      category: "",
+      amount: 0,
+      price: 0,
     });
 
-    navigation.navigate("showShoppingLists");
+    // navigation.navigate("showShoppingLists");
   };
 
   return (
@@ -46,12 +62,12 @@ const CreateShoppingList = () => {
       <Box justifyContent="center" paddingHorizontal={20}>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("showShoppingLists")}
+            onPress={() => navigation.navigate("shoppingList", { list })}
           >
             <AntDesign name="leftcircle" size={30} color="#2d2d2d" />
           </TouchableOpacity>
           <TextField fontSize="3xl" fontWeight="bold" color="#2d2d2d">
-            Crear Lista
+            Agregar Compra
           </TextField>
         </View>
       </Box>
@@ -69,6 +85,7 @@ const CreateShoppingList = () => {
             </TextField>
 
             <TextInput
+              value={buys.name}
               style={{
                 padding: 10,
                 fontSize: 16,
@@ -87,10 +104,11 @@ const CreateShoppingList = () => {
               marginBottom={5}
               color="#2d2d2d"
             >
-              Categoria
+              Cantidad
             </TextField>
 
             <TextInput
+              value={buys.amount as never}
               style={{
                 padding: 10,
                 fontSize: 16,
@@ -98,7 +116,32 @@ const CreateShoppingList = () => {
                 borderRadius: 10,
                 borderColor: "#2d2d2d",
               }}
-              onChangeText={handleOnChangeCategory}
+              inputMode="decimal"
+              onChangeText={handleOnChangeAmount}
+            />
+          </Box>
+
+          <Box marginBottom={15} paddingHorizontal={20}>
+            <TextField
+              fontSize="md"
+              fontWeight="normal"
+              marginBottom={5}
+              color="#2d2d2d"
+            >
+              Presio
+            </TextField>
+
+            <TextInput
+              value={buys.price as never}
+              style={{
+                padding: 10,
+                fontSize: 16,
+                borderWidth: 1,
+                borderRadius: 10,
+                borderColor: "#2d2d2d",
+              }}
+              inputMode="decimal"
+              onChangeText={handleOnChangePrice}
             />
           </Box>
         </Box>
@@ -117,7 +160,7 @@ const CreateShoppingList = () => {
               padding: 10,
               borderRadius: 10,
             }}
-            onPress={handleCreateList}
+            onPress={handleCreateBuys}
           >
             <TextField fontSize="md" fontWeight="semiBold" color="#2d2d2d">
               Crear
@@ -129,4 +172,4 @@ const CreateShoppingList = () => {
   );
 };
 
-export default CreateShoppingList;
+export default CreatePurchase;

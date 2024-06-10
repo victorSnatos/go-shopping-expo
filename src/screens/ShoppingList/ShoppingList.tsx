@@ -3,7 +3,7 @@ import { useAppNavigation, useAppRoute } from "../../hooks";
 import ScreenRoot from "../ScreenRoot";
 import Box from "../../ui/Box";
 import TextField from "../../ui/TextField";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import ShoppingItem from "../../components/ShoppingItem";
 import { useGetShopping } from "../../core/lists/hooks";
 import { Buys } from "../../core/lists/models";
@@ -31,18 +31,31 @@ const ShoppingList = () => {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            gap: 10,
-            marginBottom: 10,
+            justifyContent: "space-between",
           }}
         >
-          <TouchableOpacity
-            onPress={() => navigation.navigate("showShoppingLists")}
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 10,
+              marginBottom: 10,
+            }}
           >
-            <AntDesign name="leftcircle" size={30} color="#2d2d2d" />
+            <TouchableOpacity
+              onPress={() => navigation.navigate("showShoppingLists")}
+            >
+              <AntDesign name="leftcircle" size={30} color="#2d2d2d" />
+            </TouchableOpacity>
+            <TextField fontSize="3xl" fontWeight="bold" color="#2d2d2d">
+              Compras
+            </TextField>
+          </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("createPurchase", { list })}
+          >
+            <FontAwesome5 name="cart-plus" size={30} color="#2985c0" />
           </TouchableOpacity>
-          <TextField fontSize="3xl" fontWeight="bold" color="#2d2d2d">
-            Compras
-          </TextField>
         </View>
         <TextField fontSize="lg" fontWeight="bold" color="#2d2d2d">
           {list.name}

@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { List, ListGlobalState } from "./models";
+import { Buys, List, ListGlobalState } from "./models";
 
 const initialState: ListGlobalState = [
   {
     id: "list-1",
-    name: "Compra Quincena uno",
+    name: "Compra semanal",
     category: "Alimentos",
     createdAt: new Date().toISOString(),
     shopping: [
@@ -26,14 +26,12 @@ const initialState: ListGlobalState = [
       },
     ],
   },
-  {
-    id: "list-2",
-    name: "Compra Quincena dos",
-    category: "Alimentos",
-    createdAt: new Date().toISOString(),
-    shopping: null,
-  },
 ];
+
+interface Shopping {
+  id: string;
+  buys: Buys;
+}
 
 export const listSlice = createSlice({
   name: "lists",
@@ -41,6 +39,17 @@ export const listSlice = createSlice({
   reducers: {
     addList: (state, action: PayloadAction<List>) => {
       state.unshift(action.payload);
+    },
+    addBuys: (state, action: PayloadAction<Shopping>) => {
+      const list = state.find((item) => item.id === action.payload.id);
+
+      if (list) {
+        if (list.shopping) {
+          list.shopping.unshift(action.payload.buys);
+        } else {
+          list.shopping = [action.payload.buys];
+        }
+      }
     },
   },
 });

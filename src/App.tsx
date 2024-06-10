@@ -6,6 +6,7 @@ import { store } from "./store";
 import ShowShoppingLists from "./screens/ShowShoppingLists";
 import CreateShoppingList from "./screens/CreateShoppingList";
 import ShoppingList from "./screens/ShoppingList";
+import CreatePurchase from "./screens/CreatePurchase";
 import { RootStackParamList } from "./types";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -28,6 +29,7 @@ export default function App() {
               component={CreateShoppingList}
             />
             <Stack.Screen name="shoppingList" component={ShoppingList} />
+            <Stack.Screen name="createPurchase" component={CreatePurchase} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>
